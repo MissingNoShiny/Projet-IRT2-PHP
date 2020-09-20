@@ -1,0 +1,12 @@
+RewriteEngine on
+
+# Éviter les boucles infinies de redirection
+RewriteCond %{ENV:REDIRECT_STATUS} ^$
+# Si la cible est un fichier existant, pas de routage
+RewriteCond %{REQUEST_FILENAME} !-f
+
+# Interdire l’accès au dossier public
+RewriteRule ^public($|/) - [R=404]
+# Tout rediriger vers index.php
+RewriteRule ^(.*)$ public/index.php?url=$1&method=%{REQUEST_METHOD} [QSA,NC,L]
+
